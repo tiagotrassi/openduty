@@ -8,7 +8,7 @@ from django.utils import timezone
 from notification.models import ScheduledNotification
 from .escalation_helper import services_where_user_is_on_call
 from .models import (Incident, Service, ServiceTokens, Token, EventLog,
-                     IncidentSilenced, ServiceSilenced)
+                     IncidentSilenced, ServiceSilenced, SchedulePolicyRule)
 from rest_framework import viewsets
 from .serializers import IncidentSerializer
 from rest_framework import status
@@ -25,12 +25,15 @@ from openduty.tasks import unsilence_incident
 import uuid
 import base64
 
+from datetime import datetime
+from schedule.models.events import Event
+
 from .tables import IncidentTable
 
 from django_tables2_simplefilter import FilteredSingleTableView
 
-class IncidentViewSet(viewsets.ModelViewSet):
 
+class IncidentViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows incidents to be viewed or edited.
     """
@@ -50,7 +53,7 @@ class IncidentViewSet(viewsets.ModelViewSet):
             # True if not acknowleged or type is resolve
             return (incident.event_type != Incident.ACKNOWLEDGE or
                     (incident.event_type == Incident.ACKNOWLEDGE and
-                             new_event_type == Incident.RESOLVE))
+                     new_event_type == Incident.RESOLVE))
         # New incident
         else:
             # True if this is a trigger action
@@ -59,8 +62,22 @@ class IncidentViewSet(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         try:
             token = Token.objects.get(key=request.DATA["service_key"])
-            serviceToken = ServiceTokens.objects.get(token_id=token)
-            service = serviceToken.service_id
+            service_token = ServiceTokens.objects.get(token_id=token)
+            service = service_token.service_id
+            police = service.policy
+            if not police:
+                return Response({}, status=status.HTTP_403_FORBIDDEN)
+            schedule_police_rule = SchedulePolicyRule.objects.get(schedule_policy=police)
+            calendar = schedule_police_rule.schedule
+            event = Event.objects.filter(start__lte=timezone.now(), calendar=calendar)
+            if not event:
+                return Response({}, status=status.HTTP_403_FORBIDDEN)
+
+        # except
+        except Event.DoesNotExist:
+            return Response({}, status=status.HTTP_404_NOT_FOUND)
+        except SchedulePolicyRule.DoesNotExist:
+            return Response({}, status=status.HTTP_404_NOT_FOUND)
         except ServiceTokens.DoesNotExist:
             return Response({}, status=status.HTTP_404_NOT_FOUND)
         except Token.DoesNotExist:
@@ -73,7 +90,7 @@ class IncidentViewSet(viewsets.ModelViewSet):
                     service_key=service)
 
                 event_log_message = "%s api key changed %s from %s to %s" % (
-                    serviceToken.name, incident.incident_key,
+                    service_token.name, incident.incident_key,
                     incident.event_type, request.DATA['event_type'])
             except (Incident.DoesNotExist, KeyError):
                 incident = Incident()
@@ -95,7 +112,7 @@ class IncidentViewSet(viewsets.ModelViewSet):
                 incident.service_key = service
 
                 event_log_message = "%s api key created %s with status %s" % (
-                    serviceToken.name, incident.incident_key, request.DATA['event_type'])
+                    service_token.name, incident.incident_key, request.DATA['event_type'])
 
             if self.is_relevant(incident, request.DATA['event_type']):
                 event_log = EventLog()
@@ -141,11 +158,12 @@ class IncidentViewSet(viewsets.ModelViewSet):
                 status=status.HTTP_201_CREATED,
                 headers=headers)
 
+
 class ServicesByMe(FilteredSingleTableView):
     model = Incident
     table_class = IncidentTable
-    template_name='incidents/list2.html'
-    table_pagination={"per_page": 10}
+    template_name = 'incidents/list2.html'
+    table_pagination = {"per_page": 10}
 
     def get_queryset(self):
         user = self.request.user
@@ -273,7 +291,7 @@ def silence(request, incident_id):
             silenced_incident = IncidentSilenced()
             silenced_incident.incident = incident
             silenced_incident.silenced_until = timezone.now(
-                ) + timezone.timedelta(hours=int(silence_for))
+            ) + timezone.timedelta(hours=int(silence_for))
             silenced_incident.silenced = True
             silenced_incident.save()
             event_log_message = "%s silenced incident %s for %s hours" % (
@@ -295,11 +313,12 @@ def silence(request, incident_id):
     except Service.DoesNotExist:
         raise Http404
 
+
 @login_required()
 @require_http_methods(["POST"])
 def unsilence(request, incident_id):
     try:
-        incident = Incident.objects.get(id = incident_id)
+        incident = Incident.objects.get(id=incident_id)
         url = request.POST.get("url")
         try:
             IncidentSilenced.objects.filter(incident=incident).delete()
