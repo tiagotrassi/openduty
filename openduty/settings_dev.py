@@ -18,7 +18,7 @@ if 'test' not in sys.argv:
         }
     }
 
-BASE_URL = "http://52.87.147.52:8000"
+BASE_URL = "http://localhost:8000"
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'devsecret'
