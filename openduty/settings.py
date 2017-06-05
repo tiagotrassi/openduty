@@ -152,16 +152,20 @@ import sys
 if 'test' in sys.argv:
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': 'test_sqlite.db',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'test_django',
+        'USER': 'root',
+        'PASSWORD': '',
+        'HOST': 'localhost',
+        'PORT': '3306',
         }
-    }
+}
 
 
     PASSWORD_HASHERS = (
         'django.contrib.auth.hashers.MD5PasswordHasher',
         'django.contrib.auth.hashers.SHA1PasswordHasher',
-    )
+)
 
 # Parse database configuration from $DATABASE_URL
 import dj_database_url
