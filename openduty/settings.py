@@ -123,11 +123,11 @@ EMAIL_SETTINGS = {
 }
 
 TWILIO_SETTINGS = {
-    'SID': "ACa388ccebaea03bb36f9b1ef1de1617af",
-    'token': "869f7d0044468a5aab446b24f98cd949",
+    'SID': "SKcd2af9e31ba9c2018177fa6e9828a4d5",
+    'token': "SAPa3OYMYu6cDvhu7zePqJO9P4IO7lRM",
     'phone_number': "+1 210-908-5879 ",
     'sms_number': "+1 210-908-5879 ",
-    'twiml_url': "https://pushover.net/subscribe/OpenDuty-7if81iedpvqxk3t"
+    'twiml_url': "https://github.com/gu3sss/openduty/blob/master/extra/voice.xml"
 }
 
 SLACK_SETTINGS = {
