@@ -127,7 +127,7 @@ TWILIO_SETTINGS = {
     'token': "869f7d0044468a5aab446b24f98cd949",
     'phone_number': "+1 210-908-5879 ",
     'sms_number': "+1 210-908-5879 ",
-    'twiml_url': "http://www.website.org/voice.xml"
+    'twiml_url': "https://pushover.net/subscribe/OpenDuty-7if81iedpvqxk3t"
 }
 
 SLACK_SETTINGS = {
