@@ -114,7 +114,7 @@ STATICFILES_FINDERS = (
 
 AUTH_PROFILE_MODULE = 'openduty.UserProfile'
 
-BASE_URL = ""
+BASE_URL = "http://52.87.147.52:8000"
 
 XMPP_SETTINGS = {
 }
@@ -158,7 +158,7 @@ if 'test' in sys.argv:
     DATABASES = {
         'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'test_django',
+        'NAME': 'openduty',
         'USER': 'root',
         'PASSWORD': '',
         'HOST': 'localhost',
