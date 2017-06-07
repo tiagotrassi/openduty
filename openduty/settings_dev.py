@@ -20,6 +20,14 @@ if 'test' not in sys.argv:
 
 BASE_URL = "http://52.87.147.52:8000"
 
+TWILIO_SETTINGS = {
+    'SID': "ACa388ccebaea03bb36f9b1ef1de1617af",
+    'token': "869f7d0044468a5aab446b24f98cd949",
+    'phone_number': "+1 210-908-5879 ",
+    'sms_number': "+1 210-908-5879 ",
+    'twiml_url': "https://pushover.net/subscribe/OpenDuty-7if81iedpvqxk3t"
+}
+
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'devsecret'
 
