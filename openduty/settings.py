@@ -159,9 +159,9 @@ if 'test' in sys.argv:
         'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'openduty',
-        'USER': 'root',
-        'PASSWORD': '',
-        'HOST': 'localhost',
+        'USER': 'openduty',
+        'PASSWORD': 'dutyfree',
+        'HOST': '127.0.0.1',
         'PORT': '3306',
         }
 }
