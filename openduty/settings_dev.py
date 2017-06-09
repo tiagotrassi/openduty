@@ -20,6 +20,11 @@ if 'test' not in sys.argv:
 
 BASE_URL = "http://52.87.147.52:8000"
 
+EMAIL_SETTINGS = {
+    'user': "contactprasanth.s@gmail.com",
+    'password': "Prashtuls@9",
+}
+
 TWILIO_SETTINGS = {
     'SID': "SKcd2af9e31ba9c2018177fa6e9828a4d5",
     'token': "SAPa3OYMYu6cDvhu7zePqJO9P4IO7lRM",
