@@ -120,8 +120,8 @@ XMPP_SETTINGS = {
 }
 
 EMAIL_SETTINGS = {
-    'user': "contactprasanth.s@gmail.com",
-    'password': "Prashtuls@9",
+    'user': "gu3sss@gmail.com",
+    'password': "thulasi@3",
 }
 
 TWILIO_SETTINGS = {
