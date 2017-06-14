@@ -22,7 +22,7 @@ BASE_URL = "http://52.87.147.52:8000"
 
 EMAIL_SETTINGS = {
     'user': "gu3sss@gmail.com",
-    'password': "thulasi@3",
+    'password': "Prashtuls@9",
 }
 
 TWILIO_SETTINGS = {
