@@ -33,4 +33,4 @@ class EmailNotifier:
             server.close()
             print 'successfully sent the mail'
         except:
-            print "failed to send mail using Celery"
+            print "failed to send mail"
