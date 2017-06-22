@@ -33,6 +33,10 @@ TWILIO_SETTINGS = {
     'twiml_url': "https://github.com/gu3sss/openduty/blob/master/extra/voice.xml"
 }
 
+SLACK_SETTINGS = {
+    'apikey': "xoxp-202075823266-202075823458-202078565794-22ee9b3e42b2621e76911e68ef44cb7b"
+}
+
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'devsecret'
 
