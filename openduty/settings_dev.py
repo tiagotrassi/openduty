@@ -34,7 +34,7 @@ TWILIO_SETTINGS = {
 }
 
 SLACK_SETTINGS = {
-    'apikey': "xoxp-202075823266-202075823458-202078565794-22ee9b3e42b2621e76911e68ef44cb7b"
+    'apikey': "xoxb-202995176103-72JVqdD9ZjVVzAjBcHLAWTAm"
 }
 
 # SECURITY WARNING: keep the secret key used in production secret!
