@@ -69,7 +69,7 @@
                     <td data-title="Incident key">{{ item.incident_key|wbr:"_" }}</td>
                     <td data-title="Event type">{{ item.event_type }}</td>
                     <td data-title="Description">{{ item.description|wbr:"_" }}</td>
-                    <td data-title="Details" style="width: 10px;">{{ item.details|wbr:"_" }}</td>
+                    <td data-title="Details">{{ item.details|wbr:"_" }}</td>
                     <td data-title="Operations" class="controls">
                         <form method="post" action="{% url 'openduty.incidents.update_type' %}">
                             <a href="{% url 'openduty.incidents.details' item.id %}" class="btn btn-default btn-sm"
