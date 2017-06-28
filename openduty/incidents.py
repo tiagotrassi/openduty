@@ -222,7 +222,7 @@ def update_type(request):
 			if incident.event_type == "trigger":
 				_update_type(request.user, incident_ids, event_type)
         else:
-            id = request.POST.get('id')
+        	id = request.POST.get('id')
 		if incident.event_type == "trigger":
 			_update_type(request.user, [id], event_type)
               
