@@ -218,12 +218,11 @@ def update_type(request):
         messages.error(request, 'Invalid event modification!')
         return HttpResponseRedirect(request.POST['url'])
     try:
-        if incident_ids:
-		if incident.event_type == "trigger":
+        if incident.event_type == "trigger":
+		if incident_ids:
 			_update_type(request.user, incident_ids, event_type)
         else:
 		id = request.POST.get('id')
-		if incident.event_type == "trigger":
 			_update_type(request.user, [id], event_type)
               
     except Incident.DoesNotExist:
