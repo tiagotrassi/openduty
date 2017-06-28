@@ -36,6 +36,8 @@
     </div>
     </div>
     <table id="no-more-tables" class="table">
+            table-layout: fixed;
+            width: 100px;
         <thead>
         <tr>
                 <th>Occurred at</th>
@@ -69,7 +71,7 @@
                     <td data-title="Incident key">{{ item.incident_key|wbr:"_" }}</td>
                     <td data-title="Event type">{{ item.event_type }}</td>
                     <td data-title="Description">{{ item.description|wbr:"_" }}</td>
-                    <td data-title="Details" width:20px;>{{ item.details|wbr:"_" }}</td>
+                    <td data-title="Details">{{ item.details|wbr:"_" }}</td>
                     <td data-title="Operations" class="controls">
                         <form method="post" action="{% url 'openduty.incidents.update_type' %}">
                             <a href="{% url 'openduty.incidents.details' item.id %}" class="btn btn-default btn-sm"
