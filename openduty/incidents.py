@@ -222,8 +222,9 @@ def update_type(request):
 		if incident_ids:
 			_update_type(request.user, incident_ids, event_type)
         else:
-		id = request.POST.get('id')
-		_update_type(request.user, [id], event_type)
+		if incident.event_type == "trigger":
+			id = request.POST.get('id')
+			_update_type(request.user, [id], event_type)
               
     except Incident.DoesNotExist:
         messages.error(request, 'Incident not found')
