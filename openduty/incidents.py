@@ -223,7 +223,7 @@ def update_type(request):
 			_update_type(request.user, incident_ids, event_type)
         else:
 		id = request.POST.get('id')
-			_update_type(request.user, [id], event_type)
+		_update_type(request.user, [id], event_type)
               
     except Incident.DoesNotExist:
         messages.error(request, 'Incident not found')
