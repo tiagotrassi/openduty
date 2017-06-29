@@ -204,13 +204,13 @@ def _update_type(user, ids, event_type):
             		incident.save()
 		else:
 			messages.error(request, 'Invalid event modification!')
-	else:
 		
-            logmessage.incident_key = incident
-            logmessage.save()
-            if incident.event_type == Incident.RESOLVE or incident.event_type == Incident.ACKNOWLEDGE:
-                ScheduledNotification.remove_all_for_incident(incident)
-
+            		logmessage.incident_key = incident
+            		logmessage.save()
+            		if incident.event_type == Incident.RESOLVE or incident.event_type == Incident.ACKNOWLEDGE:
+                		ScheduledNotification.remove_all_for_incident(incident)
+	except ValidationError as e:
+        	messages.error(request, e.messages)
 
 @login_required()
 @require_http_methods(["POST"])
