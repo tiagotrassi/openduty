@@ -209,6 +209,23 @@ def _update_type(user, ids, event_type):
                 		ScheduledNotification.remove_all_for_incident(incident)
 		else:
 			messages.error(request, 'Invalid event modification!')
+			
+		if incident.event_type == Incident.ACKNOWLEDGE:
+        		incident.event_type = event_type
+            		incident.occurred_at = timezone.now()
+            		incident.save()
+			
+			logmessage.incident_key = incident
+            		logmessage.save()
+            		if incident.event_type == Incident.RESOLVE or incident.event_type == Incident.ACKNOWLEDGE:
+                		ScheduledNotification.remove_all_for_incident(incident)
+		else:
+			messages.error(request, 'Invalid event modification!')
+			
+		if incident.event_type == Incident.RESOLVE:
+        		messages.error(request, 'Invalid event modification!')
+		else:
+			messages.error(request, 'Invalid event modification!')
 		            		
 	except ValidationError as e:
         	messages.error(request, e.messages)
