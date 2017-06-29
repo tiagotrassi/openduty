@@ -196,11 +196,16 @@ def _update_type(user, ids, event_type):
                 incident.event_type,
                 event_type)
             logmessage.occurred_at = timezone.now()
-
-            incident.event_type = event_type
-            incident.occurred_at = timezone.now()
-            incident.save()
-
+	try:
+		
+		if incident.event_type == Incident.TRIGGER:
+        		incident.event_type = event_type
+            		incident.occurred_at = timezone.now()
+            		incident.save()
+		else:
+			messages.error(request, 'Invalid event modification!')
+	else:
+		
             logmessage.incident_key = incident
             logmessage.save()
             if incident.event_type == Incident.RESOLVE or incident.event_type == Incident.ACKNOWLEDGE:
@@ -219,15 +224,12 @@ def update_type(request):
         return HttpResponseRedirect(request.POST['url'])
     try:
         
-	if incident.event_type == Incident.TRIGGER:
-		if incident_ids:
-			_update_type(request.user, incident_ids, event_type)
-        	else:
-			id = request.POST.get('id')
-			_update_type(request.user, [id], event_type)
+	if incident_ids:
+		_update_type(request.user, incident_ids, event_type)
         else:
-		messages.error(request, 'Invalid event modification!')
-		
+		id = request.POST.get('id')
+		_update_type(request.user, [id], event_type)
+        	
     except Incident.DoesNotExist:
         messages.error(request, 'Incident not found')
         return HttpResponseRedirect(request.POST['url'])
