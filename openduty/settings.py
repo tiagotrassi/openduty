@@ -101,11 +101,9 @@ PAGINATION_DEFAULT_PAGINATION = 20 # The default amount of items to show on a pa
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
-STATIC_URL = '/static/'
-STATIC_SCHEDULE_URL = '/static_schedule/'
+STATIC_URL = '/static_schedule/'
 
-STATIC_ROOT =  os.path.realpath(os.path.dirname(__file__))+"/static/"
-STATIC_SCHEDULE_ROOT =  os.path.realpath(os.path.dirname(__file__))+"/static_schedule/"
+STATIC_ROOT =  os.path.realpath(os.path.dirname(__file__))+"/static_schedule/"
 STATICFILES_DIRS = (
     os.path.realpath(os.path.dirname(__file__))+'/static_schedule/',
 )
@@ -191,8 +189,7 @@ ALLOWED_HOSTS = ['*']
 import os
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 STATIC_ROOT = 'staticfiles'
-STATIC_URL = '/static/'
-STATIC_SCHEDULE_URL = '/static_schedule/'
+STATIC_URL = '/static_schedule/'
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
