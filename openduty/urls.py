@@ -114,3 +114,7 @@ urlpatterns += patterns('',
 urlpatterns += patterns('',
              (r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT, 'show_indexes':True}),
         )
+
+urlpatterns += patterns('',
+             (r'^static_schedule/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_SCHEDULE_ROOT, 'show_indexes':True}),
+        )
