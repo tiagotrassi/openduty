@@ -1,4 +1,4 @@
-$(function () {
+jquery(function () {
   $('[data-toggle="tooltip"]').tooltip()
 })
 
