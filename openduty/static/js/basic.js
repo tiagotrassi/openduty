@@ -1,5 +1,5 @@
-jQuery(function () {
-  $('[data-toggle="tooltip"]').tooltip()
+$(function () {
+  jQuery('[data-toggle="tooltip"]').tooltip()
 })
 
 $(document).ready(function() {
