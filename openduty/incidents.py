@@ -128,7 +128,7 @@ class IncidentViewSet(viewsets.ModelViewSet):
 
                 incident.event_type = request.DATA["event_type"]
                 incident.description = request.DATA["description"][:100]
-                incident.details = request.DATA["details"]
+                incident.details = request.DATA.get("details", "")
                 incident.occurred_at = timezone.now()
                 try:
                     incident.full_clean()
@@ -214,16 +214,35 @@ def _update_type(user, ids, event_type):
                 incident.event_type,
                 event_type)
             logmessage.occurred_at = timezone.now()
+	try:
+		
+		if incident.event_type == Incident.TRIGGER:
+        		incident.event_type = event_type
+            		incident.occurred_at = timezone.now()
+            		incident.save()
+			
+			logmessage.incident_key = incident
+            		logmessage.save()
+            		if incident.event_type == Incident.RESOLVE or incident.event_type == Incident.ACKNOWLEDGE:
+                		ScheduledNotification.remove_all_for_incident(incident)
+				
+		elif incident.event_type == Incident.ACKNOWLEDGE:
+        		incident.event_type = event_type
+            		incident.occurred_at = timezone.now()
+            		incident.save()
+			
+			logmessage.incident_key = incident
+            		logmessage.save()
+            		if incident.event_type == Incident.RESOLVE or incident.event_type == Incident.ACKNOWLEDGE:
+                		ScheduledNotification.remove_all_for_incident(incident)
 
-            incident.event_type = event_type
-            incident.occurred_at = timezone.now()
-            incident.save()
-
-            logmessage.incident_key = incident
-            logmessage.save()
-            if incident.event_type == Incident.RESOLVE or incident.event_type == Incident.ACKNOWLEDGE:
-                ScheduledNotification.remove_all_for_incident(incident)
-
+		elif incident.event_type == Incident.RESOLVE:
+        		messages.error(request, 'Invalid event modification!')
+		else:
+			messages.error(request, 'Invalid event modification!')
+		            		
+	except ValidationError as e:
+        	messages.error(request, e.messages)
 
 @login_required()
 @require_http_methods(["POST"])
@@ -236,11 +255,13 @@ def update_type(request):
         messages.error(request, 'Invalid event modification!')
         return HttpResponseRedirect(request.POST['url'])
     try:
-        if incident_ids:
-            _update_type(request.user, incident_ids, event_type)
+        
+	if incident_ids:
+		_update_type(request.user, incident_ids, event_type)
         else:
-            id = request.POST.get('id')
-            _update_type(request.user, [id], event_type)
+		id = request.POST.get('id')
+		_update_type(request.user, [id], event_type)
+        	
     except Incident.DoesNotExist:
         messages.error(request, 'Incident not found')
         return HttpResponseRedirect(request.POST['url'])

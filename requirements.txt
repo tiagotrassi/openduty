@@ -18,7 +18,7 @@ future==0.14.3
 gunicorn==19.3.0
 httplib2==0.9.1
 icalendar==3.9.0
-kombu
+kombu~=3.0
 mercurial==3.4.1
 oauth2client==1.4.11
 pyasn1==0.1.7
@@ -36,3 +36,4 @@ twilio==4.4.0
 vobject
 wsgiref==0.1.2
 django-twilio
+psycopg2==2.5.1

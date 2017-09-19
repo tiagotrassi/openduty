@@ -51,7 +51,7 @@ class NotificationHelper(object):
                     notification.notifier = method.method
                     notification.send_at = notify_at
                     uri = settings.BASE_URL + "/incidents/details/" + str(incident.id)
-                    notification.message = "A Service is experiencing a problem: " + incident.incident_key + " " + incident.description + ". Handle at: " + uri + " Details: " + incident.details
+                    notification.message = "A Service is experiencing a problem: " + incident.incident_key + " " + '\n\n' + "Subject: " + incident.description + '\n\n' + "Handle at: " + uri + '\n\n' + "Details: " + incident.details
 
                     notifications.append(notification)
 
@@ -86,7 +86,7 @@ class NotificationHelper(object):
             notification.send_at = notify_at
             if preparedmsg is None:
                 uri = settings.BASE_URL + "/incidents/details/" + str(incident.id)
-                notification.message = "A Service is experiencing a problem: " + incident.incident_key + " " + incident.description + ". Handle at: " + uri
+                notification.message = "A Service is experiencing a problem: " + incident.incident_key + " " + '\n\n' + "Subject: " + incident.description + '\n\n' + "Handle at: " + uri
             else:
                 notification.message = preparedmsg
             notifications.append(notification)

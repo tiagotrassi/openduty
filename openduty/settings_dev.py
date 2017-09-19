@@ -1,6 +1,6 @@
 from settings import *
 
-DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = True
 
 # Database
@@ -18,7 +18,24 @@ if 'test' not in sys.argv:
         }
     }
 
-BASE_URL = "http://localhost:8000"
+BASE_URL = "http://52.87.147.52:8000"
+
+EMAIL_SETTINGS = {
+    'user': "gu3sss@gmail.com",
+    'password': "Prashtuls@9"
+}
+
+TWILIO_SETTINGS = {
+    'SID': "SKcd2af9e31ba9c2018177fa6e9828a4d5",
+    'token': "SAPa3OYMYu6cDvhu7zePqJO9P4IO7lRM",
+    'phone_number': "+1 210-908-5879 ",
+    'sms_number': "+1 210-908-5879 ",
+    'twiml_url': "https://github.com/gu3sss/openduty/blob/master/extra/voice.xml"
+}
+
+SLACK_SETTINGS = {
+    'apikey': "xoxb-202995176103-72JVqdD9ZjVVzAjBcHLAWTAm"
+}
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'devsecret'

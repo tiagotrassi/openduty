@@ -114,18 +114,26 @@ STATICFILES_FINDERS = (
 
 AUTH_PROFILE_MODULE = 'openduty.UserProfile'
 
-BASE_URL = ""
+BASE_URL = "http://52.87.147.52:8000"
 
 XMPP_SETTINGS = {
 }
 
 EMAIL_SETTINGS = {
+    'user': "gu3sss@gmail.com",
+    'password': "Prashtuls@9"
 }
 
 TWILIO_SETTINGS = {
+    'SID': "ACa388ccebaea03bb36f9b1ef1de1617af",
+    'token': "869f7d0044468a5aab446b24f98cd949",
+    'phone_number': "+12109085879",
+    'sms_number': "+12109085879",
+    'twiml_url': "https://github.com/gu3sss/openduty/blob/master/extra/voice.xml"
 }
 
 SLACK_SETTINGS = {
+    'apikey': "xoxb-202995176103-72JVqdD9ZjVVzAjBcHLAWTAm"
 }
 
 PROWL_SETTINGS = {
@@ -142,24 +150,47 @@ CACHES = {
 
 DATABASES = {
 }
-
 TWILIO_ACCOUNT_SID = TWILIO_SETTINGS.get("SID", "disabled")
 TWILIO_AUTH_TOKEN = TWILIO_SETTINGS.get("token", "disabled")
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = ''
+SECRET_KEY = 'devsecret'
 
 import sys
 if 'test' in sys.argv:
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': 'test_sqlite.db',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'openduty',
+        'USER': 'openduty',
+        'PASSWORD': 'dutyfree',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
         }
-    }
+}
 
 
     PASSWORD_HASHERS = (
         'django.contrib.auth.hashers.MD5PasswordHasher',
         'django.contrib.auth.hashers.SHA1PasswordHasher',
-    )
+)
+
+# Parse database configuration from $DATABASE_URL
+import dj_database_url
+DATABASES['default'] =  dj_database_url.config()
+
+# Honor the 'X-Forwarded-Proto' header for request.is_secure()
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+# Allow all host headers
+ALLOWED_HOSTS = ['*']
+
+# Static asset configuration
+import os
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+STATIC_ROOT = 'staticfiles'
+STATIC_URL = '/static/'
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
